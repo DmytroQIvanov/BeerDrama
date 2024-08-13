@@ -10,40 +10,27 @@ public class Player : MonoBehaviour
     public float moveSpeed = 30f;
     public float jumpSpeed = 150f;
     public float rotateSpeed = 75f;
-    private float vInput;
-    private float hInput;
-    private float test = 1f;
-    public Text LifeTextObj;
-    public Text BeerBottleTextObj;
-    public int LifeCount = 3;
+
+    public Text LifeTextObj,BeerBottleTextObj;
+    public int LifeCount = 3,CoinCount=0;
     public Animator PlayerAnimator;
     public Text CoinTextObj;
-    public int CoinCount =0;
 
-    public GameObject LeftBtn;
-    public GameObject RightBtn;
-    public GameObject JumpBtn;
-    public GameObject BeerBottlePrefab;
+    public GameObject LeftBtn,RightBtn,JumpBtn,BeerBottlePrefab;
+
     private Rigidbody2D _rb;
     private Vector2 velocity;
-    private bool onGround = false;
     private SpriteRenderer spriteRenderer;
 
-    private bool rightM, leftM, jumpM, downM;
-    private bool rightTest, leftTest, jumpTest;
-
+    private bool rightM, leftM, jumpM, downM,onGround = false;
+    public bool doubleJump ;
+    public int jumpCount=0;
     private float moving;
 
+
     public AudioSource HitSource;
-
-
-    public AudioClip HitClip;
-    public AudioClip RunClip;
-    public AudioClip JumpClip;
-    public AudioClip CoinClip;
-    public AudioClip OnGroundClip;
-    public AudioClip DamageClip;
-
+    public AudioClip HitClip,RunClip,JumpClip,CoinClip,OnGroundClip,DamageClip;
+    
 
     public int beerBottle =0;
     void Start()
@@ -194,7 +181,7 @@ void OnTriggerEnter(Collider other) {
             PlayerAnimator.SetBool("Jump", false);
             onGround = true;
             HitSource.PlayOneShot(OnGroundClip);
-            
+            jumpCount=0;
         }
 
         //LifeCount -= 1;
@@ -230,12 +217,21 @@ void OnTriggerEnter(Collider other) {
 
     }
 
-    void JumpBtnF()
+    public void JumpBtnF()
     {
 
+        
+        if(!onGround && !doubleJump) return;
+        if(!onGround && jumpCount >=1 && !doubleJump)return;
+        if(!onGround && jumpCount >=2 && doubleJump)return;
+        // if( && jumpCount>=2)) ;
         PlayerAnimator.SetBool("Jump",true);
         onGround = false;
         jumpM = true;
+        if(doubleJump && jumpCount<2){
+            ++jumpCount;
+        }
+
 
     }
 

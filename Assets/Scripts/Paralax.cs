@@ -6,6 +6,7 @@ public class Paralax : MonoBehaviour
 {
     private GameObject Player;
     public float Coef=0.2f;
+    public float xPos = 0;
     private float StartPositionX;
     //private float StartPositionY;
 
@@ -21,7 +22,7 @@ public class Paralax : MonoBehaviour
     void Update()
     {
        // Debug.Log(transform.position.x);
-       transform.position = new Vector3(transform.position.x - (StartPositionX - Player.transform.position.x)*Coef, transform.position.y,10);
+       transform.position = new Vector3(transform.position.x - (StartPositionX - Player.transform.position.x)*Coef, transform.position.y,xPos);
         StartPositionX = Player.transform.position.x;
 
     }
